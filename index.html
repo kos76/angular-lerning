@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="courseListApp">
+    <head>
+        <title>TODO supply a title</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="angular.js"></script>
+        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+        <script>
+            var list = {
+                user: "User1",
+                courses: [
+                    {name: "HTML, CSS", passed: true},
+                    {name: "Javascript Essential", passed: true},
+                    {name: "Javascript Advanced", passed: false},
+                    {name: "HTML5", passed: true},
+                    {name: "PHP Python", passed: false},
+                ]
+            };
+            var courseListApp = angular.module("courseListApp", []);
+            courseListApp.controller("courseListCtrl", function ($scope) {
+                $scope.data = list;
+                $scope.addNewCourse = function () {
+                    $scope.data.courses.push({
+                        name: $scope.courseName,
+                        passed: false,
+                    });
+                    $scope.courseName = '';
+                };
+                $scope.setStyle = function (passed) {
+                    return passed ? "color:green" : "color:red";
+                };
+                $scope.showText = function (passed) {
+                    return passed ? "Да" : "Нет";
+
+                };
+                
+                 $scope.selectedClass = "green";
+            $scope.classNames = [
+                {displayName: "color green", value:'green'},
+                {displayName: "color blue", value:'blue'},
+                {displayName: "color red", value:'red'},
+            ];
+
+
+            });
+            
+           
+
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body ng-controller="courseListCtrl">
+        <section>
+            <div class="container">
+                <div class="page-header">
+
+                <h1>Планировщик курсов</h1>
+                <h3>Пользователь {{data.user}} Количество курсов {{data.courses.length}}</h3>
+            </div>
+                <div class="panel panel-success">
+
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="courseName" />
+                            <span class="input-group-btn">
+                                <button ng-click="addNewCourse()" class="btn btn-success">Добавить</button>
+                            </span>                        
+                        </div>
+                        <table class="table table-hower">
+                            <thead>
+                                <tr>
+                                    <th>Курс</th>
+                                    <th></th>
+                                    <th>Пройден</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="course in data.courses">
+                                    <td>{{course.name}}</td>
+                                    <td><input type="checkbox" ng-model="course.passed"/></td>
+                                    <td>
+                                        <span style="{{setStyle(course.passed)}}">
+                                            {{showText(course.passed)}}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="item in classNames">
+                <label>
+                    <input type="radio" name="color" ng-model="$parent.selectedClass" value="{{item.value}}"/>
+                    {{item.displayName}}
+                </label>
+            </div>
+            <div>
+                {{selectedClass}}
+            </div>
+        </section>
+    </body>
+</html>
